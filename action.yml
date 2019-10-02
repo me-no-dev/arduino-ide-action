@@ -19,8 +19,8 @@ outputs:
   usr_path:
     description: 'Location where sketches, libraries and hardware can be installed'
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  #using: 'docker'
+  #image: 'Dockerfile'
   #image: 'docker://debian:stetch-slim'
-  #using: 'node12'
-  #main: 'install_arduino_ide.js'
+  using: 'node12'
+  main: 'install_arduino_ide.js'
