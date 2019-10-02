@@ -13,11 +13,6 @@ inputs:
     description: 'Location where user sketches, libraries and etc. are (Default: $HOME/Arduino)'
     required: false
     default: 'Arduino'
-outputs:
-  ide_path:
-    description: 'Location where Arduino IDE was installed'
-  usr_path:
-    description: 'Location where sketches, libraries and hardware can be installed'
 runs:
   using: 'node12'
   main: 'install_arduino_ide.js'
