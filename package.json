@@ -22,10 +22,10 @@
   },
   "homepage": "https://github.com/me-no-dev/arduino-ide-action#readme",
   "dependencies": {
-    "@actions/core": "^1.1.0",
+    "@actions/core": "^1.1.1",
     "@actions/github": "^1.1.0",
-    "@actions/io": "^1.1.0",
-    "@actions/exec": "^1.1.0",
-    "@actions/tool-cache": "^1.1.0"
+    "@actions/io": "^1.0.0",
+    "@actions/exec": "^1.0.0",
+    "@actions/tool-cache": "^1.1.1"
   }
 }
