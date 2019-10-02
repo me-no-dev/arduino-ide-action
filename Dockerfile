@@ -11,6 +11,6 @@ LABEL "com.github.actions.color"="green"
 
 COPY README.md LICENSE install_arduino_ide.sh /
 
-RUN apk add --no-cache git python3 py3-serial
+RUN apk add --no-cache git python3
 
 CMD ["/install_arduino_ide.sh"]
