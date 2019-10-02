@@ -8,19 +8,16 @@ inputs:
   ide_path:
     description: 'Location where to install Arduino IDE (Default: $HOME/arduino-ide)'
     required: false
-    default: '$HOME/arduino-ide'
+    default: 'arduino-ide'
   usr_path:
     description: 'Location where user sketches, libraries and etc. are (Default: $HOME/Arduino)'
     required: false
-    default: '$HOME/Arduino'
+    default: 'Arduino'
 outputs:
   ide_path:
     description: 'Location where Arduino IDE was installed'
   usr_path:
     description: 'Location where sketches, libraries and hardware can be installed'
 runs:
-  #using: 'docker'
-  #image: 'Dockerfile'
-  #image: 'docker://debian:stetch-slim'
   using: 'node12'
   main: 'install_arduino_ide.js'

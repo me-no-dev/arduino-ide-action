@@ -1,4 +1,5 @@
 const core = require('@actions/core');
+const github = require('@actions/github');
 const wait = require('./wait');
 
 
@@ -16,6 +17,10 @@ async function run() {
     core.setOutput('ide_path', ide_path);
     core.setOutput('usr_path', usr_path);
     core.exportVariable('this_is_STUPID', (new Date()).toTimeString());
+    
+    // Get the JSON webhook payload for the event that triggered the workflow
+    const payload = JSON.stringify(github.context.payload, undefined, 2)
+    console.log(`The event payload: ${payload}`);
   } 
   catch (error) {
     core.setFailed(error.message);

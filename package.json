@@ -3,10 +3,9 @@
   "version": "1.0.0",
   "description": "Installs ArduinoIDE and adds some cool tools to build your sketches",
   "main": "install_arduino_ide.js",
-  // "scripts": {
-  //   "lint": "eslint install_arduino_ide.js",
-  //   "test": "eslint install_arduino_ide.js && jest"
-  // },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/me-no-dev/arduino-ide-action.git"
@@ -14,7 +13,7 @@
   "keywords": [
     "GitHub",
     "Actions",
-    "JavaScript"
+    "Arduino"
   ],
   "author": "me-no-dev",
   "license": "MIT",
@@ -23,10 +22,7 @@
   },
   "homepage": "https://github.com/me-no-dev/arduino-ide-action#readme",
   "dependencies": {
-    "@actions/core": "^1.1.1"
-  },
-  // "devDependencies": {
-  //   "eslint": "^6.3.0",
-  //   "jest": "^24.9.0"
-  // }
+    "@actions/core": "^1.1.0",
+    "@actions/github": "^1.1.0"
+  }
 }
