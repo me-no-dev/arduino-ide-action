@@ -20,10 +20,9 @@ async function run() {
 
     core.exportVariable('ARDUINO_IDE_PATH', ide_path);
     core.exportVariable('ARDUINO_USR_PATH', usr_path);
-
-    // Get the JSON webhook payload for the event that triggered the workflow
-    // const payload = JSON.stringify(github.context.payload, undefined, 2)
-    // console.log(`The event payload: ${payload}`);
+    
+    const payload = JSON.stringify(process, undefined, 2)
+    console.log(`The process: ${payload}`);
   } 
   catch (error) {
     core.setFailed(error.message);
