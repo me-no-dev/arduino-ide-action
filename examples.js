@@ -8,6 +8,9 @@ const wait = require('./wait');
 
 wait(1000);//call the local module exported function
 
+// print environment
+const payload = JSON.stringify(process.env, undefined, 2)
+console.log(`ENV: ${payload}`);
 
 //
 // CORE
