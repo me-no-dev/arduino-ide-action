@@ -25,7 +25,12 @@ async function run() {
 
     var arduino_ide = ide_path;
     if (!arduino_ide.startsWith("/")){
-      arduino_ide = process.env['HOME'] + "/" + arduino_ide;
+      if (os_type === "win32"){
+        arduino_ide = process.env['HOMEDRIVE'] + process.env['HOMEPATH'] + "\\" + arduino_ide;
+      } else {
+        arduino_ide = process.env['HOME'] + "/" + arduino_ide;
+      }
+      
     }
     if (os_type === "linux"){
       await io.mv(archive, 'arduino.tar.xz');
@@ -36,16 +41,18 @@ async function run() {
       
       if(os_type === "darwin"){
         let myError = '';
+        let myData = '';
         const options = {};
         options.cwd = '.';
-        options.listeners = {stdout: (data) => {}, stderr: (data) => { myError += data.toString(); }};
+        options.listeners = {stdout: (data) => { myData += data.toString(); }, stderr: (data) => { myError += data.toString(); }};
         await exec.exec('unzip', ['arduino.zip'], options);
         await io.mv('Arduino.app', arduino_ide);
         arduino_ide += "/Contents/Java"
       } else {
-        const payload = JSON.stringify(process.env, undefined, 2)
-        console.log(`ENV: ${payload}`);
-        arduino_ide = await tc.extractZip('arduino.zip', arduino_ide); // archive_path, dst_path
+        // const payload = JSON.stringify(process.env, undefined, 2)
+        // console.log(`ENV: ${payload}`);
+        const arduino_unzip = await tc.extractZip('arduino.zip', 'arduino_unzip'); // archive_path, dst_path
+        await io.mv(arduino_unzip + "/arduino-nightly", arduino_ide);
       }
     }
     console.log(`Extracted IDE: ${arduino_ide}`);
@@ -54,7 +61,7 @@ async function run() {
 
 
 
-    // core.exportVariable('ARDUINO_IDE_PATH', ide_path);
+    core.exportVariable('ARDUINO_IDE_PATH', arduino_ide);
     // core.exportVariable('ARDUINO_USR_PATH', usr_path);
 
     // const payload = JSON.stringify(process.env, undefined, 2)
