@@ -24,7 +24,6 @@ async function run() {
     const archive = await tc.downloadTool(ide_url);
     var arduino_ide = "";
     if (os_type === "linux"){
-      arduino_ide = await tc.extractTar(archive, ide_path); // archive_path, dst_path
       await exec.exec('tar', ['xf', archive]);
       await io.mv('arduino-nightly', ide_path);
     } else {
