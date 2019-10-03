@@ -3,6 +3,11 @@ const github = require('@actions/github');
 const exec = require('@actions/exec');
 const io = require('@actions/io');
 const tc = require('@actions/tool-cache');
+//local module
+const wait = require('./wait');
+
+wait(1000);//call the local module exported function
+
 
 //
 // CORE
