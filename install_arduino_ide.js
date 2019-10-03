@@ -62,9 +62,6 @@ async function run() {
 
     core.exportVariable('ARDUINO_IDE_PATH', arduino_ide);
     core.exportVariable('ARDUINO_USR_PATH', arduino_usr);
-
-    // const payload = JSON.stringify(process.env, undefined, 2)
-    // console.log(`ENV: ${payload}`);
   } 
   catch (error) {
     core.setFailed(error.message);
