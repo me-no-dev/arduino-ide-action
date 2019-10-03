@@ -40,19 +40,14 @@ async function run() {
       await io.mv(archive, 'arduino.zip');
       
       if(os_type === "darwin"){
-        let myError = '';
-        let myData = '';
-        const options = {};
-        options.cwd = '.';
-        options.listeners = {stdout: (data) => { myData += data.toString(); }, stderr: (data) => { myError += data.toString(); }};
-        await exec.exec('unzip', ['arduino.zip'], options);
+        core.startGroup('UnZip IDE')
+        await exec.exec('unzip', ['arduino.zip']);
+        core.endGroup()
         await io.mv('Arduino.app', arduino_ide);
         arduino_ide += "/Contents/Java"
       } else {
-        // const payload = JSON.stringify(process.env, undefined, 2)
-        // console.log(`ENV: ${payload}`);
         const arduino_unzip = await tc.extractZip('arduino.zip', 'arduino_unzip'); // archive_path, dst_path
-        await io.mv(arduino_unzip + "/arduino-nightly", arduino_ide);
+        await io.cp(arduino_unzip + "/arduino-nightly", { recursive: true, force: false });
       }
     }
     console.log(`Extracted IDE: ${arduino_ide}`);
