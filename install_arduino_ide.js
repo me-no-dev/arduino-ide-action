@@ -12,7 +12,27 @@ async function run() {
     const usr_path = core.getInput('usr_path');
     const os_type = process.platform;
     const os_arch = process.arch;
-    console.log(`IDE_PATH: ${ide_path}, USR_PATH: ${usr_path}, OS_TYPE: ${os_type}, OS_ARCH: ${os_arch}`)
+
+
+    var arduino_ide = ide_path;
+    if (!arduino_ide.startsWith("/")){
+      if (os_type === "win32"){
+        arduino_ide = process.env['HOMEDRIVE'] + process.env['HOMEPATH'] + "\\" + arduino_ide;
+      } else {
+        arduino_ide = process.env['HOME'] + "/" + arduino_ide;
+      }
+    }
+
+    var arduino_usr = usr_path;
+    if (!arduino_usr.startsWith("/")){
+      if (os_type === "win32"){
+        arduino_usr = process.env['HOMEDRIVE'] + process.env['HOMEPATH'] + "\\" + arduino_usr;
+      } else {
+        arduino_usr = process.env['HOME'] + "/" + arduino_usr;
+      }
+    }
+
+    console.log(`IDE_PATH: ${arduino_ide}, USR_PATH: ${arduino_usr}, OS_TYPE: ${os_type}, OS_ARCH: ${os_arch}`)
 
     var arduino_archive = "linux64.tar.xz";
     if (os_type === "win32"){
@@ -23,22 +43,12 @@ async function run() {
     const ide_url = `https://www.arduino.cc/download.php?f=/arduino-nightly-${arduino_archive}`;
     const archive = await tc.downloadTool(ide_url);
 
-    var arduino_ide = ide_path;
-    if (!arduino_ide.startsWith("/")){
-      if (os_type === "win32"){
-        arduino_ide = process.env['HOMEDRIVE'] + process.env['HOMEPATH'] + "\\" + arduino_ide;
-      } else {
-        arduino_ide = process.env['HOME'] + "/" + arduino_ide;
-      }
-      
-    }
     if (os_type === "linux"){
       await io.mv(archive, 'arduino.tar.xz');
       await exec.exec('tar', ['xf', 'arduino.tar.xz']);
       await io.mv('arduino-nightly', arduino_ide);
     } else {
       await io.mv(archive, 'arduino.zip');
-      
       if(os_type === "darwin"){
         core.startGroup('UnZip IDE')
         await exec.exec('unzip', ['arduino.zip']);
@@ -50,14 +60,12 @@ async function run() {
         await io.cp(arduino_unzip + "/arduino-nightly", arduino_ide, { recursive: true, force: false });
       }
     }
-    console.log(`Extracted IDE: ${arduino_ide}`);
-    const aiinfo = await exec.exec('ls', ['-l', arduino_ide]);
-    console.log(`LS IDE: ${aiinfo}`);
 
-
+    await io.mkdirP(arduino_usr+'/libraries');
+    await io.mkdirP(arduino_usr+'/hardware');
 
     core.exportVariable('ARDUINO_IDE_PATH', arduino_ide);
-    // core.exportVariable('ARDUINO_USR_PATH', usr_path);
+    core.exportVariable('ARDUINO_USR_PATH', arduino_usr);
 
     // const payload = JSON.stringify(process.env, undefined, 2)
     // console.log(`ENV: ${payload}`);
