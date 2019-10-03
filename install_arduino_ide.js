@@ -12,24 +12,16 @@ async function run() {
     const usr_path = core.getInput('usr_path');
     const os_type = process.platform;
     const os_arch = process.arch;
-
+    const home = (os_type === "win32")?(process.env['HOMEDRIVE'] + process.env['HOMEPATH']):process.env['HOME'];
 
     var arduino_ide = ide_path;
     if (!arduino_ide.startsWith("/")){
-      if (os_type === "win32"){
-        arduino_ide = process.env['HOMEDRIVE'] + process.env['HOMEPATH'] + "\\" + arduino_ide;
-      } else {
-        arduino_ide = process.env['HOME'] + "/" + arduino_ide;
-      }
+      arduino_ide = home + "/" + arduino_ide;
     }
 
     var arduino_usr = usr_path;
     if (!arduino_usr.startsWith("/")){
-      if (os_type === "win32"){
-        arduino_usr = process.env['HOMEDRIVE'] + process.env['HOMEPATH'] + "\\" + arduino_usr;
-      } else {
-        arduino_usr = process.env['HOME'] + "/" + arduino_usr;
-      }
+      arduino_usr = home + "/" + arduino_usr;
     }
 
     console.log(`IDE_PATH: ${arduino_ide}, USR_PATH: ${arduino_usr}, OS_TYPE: ${os_type}, OS_ARCH: ${os_arch}`)
