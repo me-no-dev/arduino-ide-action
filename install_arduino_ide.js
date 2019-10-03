@@ -35,10 +35,12 @@ async function run() {
       await io.mv(archive, 'arduino.zip');
       
       if(os_type === "darwin"){
-        await exec.exec('unzip', ['arduino.zip']);
+        await exec.exec('unzip arduino.zip > /dev/null');
         await io.mv('Arduino.app', arduino_ide);
         arduino_ide += "/Contents/Java"
       } else {
+        const payload = JSON.stringify(process.env, undefined, 2)
+        console.log(`ENV: ${payload}`);
         arduino_ide = await tc.extractZip('arduino.zip', arduino_ide); // archive_path, dst_path
       }
     }
