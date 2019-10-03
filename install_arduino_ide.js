@@ -22,10 +22,13 @@ async function run() {
     }
     const ide_url = `https://www.arduino.cc/download.php?f=/arduino-nightly-${arduino_archive}`;
     const archive = await tc.downloadTool(ide_url);
+    const ainfo = await exec.exec('ls', ['-l', archive]);
+    console.log(`LS: ${ainfo}`);
     var arduino_ide = "";
     if (os_type === "linux"){
       await exec.exec('tar', ['xf', archive]);
       await io.mv('arduino-nightly', ide_path);
+      arduino_ide = ide_path;
     } else {
       arduino_ide = await tc.extractZip(archive, ide_path); // archive_path, dst_path
       if(os_type === "darwin"){
