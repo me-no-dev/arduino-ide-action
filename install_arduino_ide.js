@@ -37,7 +37,7 @@ async function run() {
       if(os_type === "darwin"){
         let myError = '';
         const options = {};
-        options.cwd = process.env['HOME'];
+        options.cwd = '.';
         options.listeners = {stdout: (data: Buffer) => {}, stderr: (data: Buffer) => { myError += data.toString(); }};
         await exec.exec('unzip', ['arduino.zip'], options);
         await io.mv('Arduino.app', arduino_ide);
