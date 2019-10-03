@@ -32,9 +32,14 @@ async function run() {
       arduino_ide = ide_path;
     } else {
       await io.mv(archive, 'arduino.zip');
-      arduino_ide = await tc.extractZip('arduino.zip', ide_path); // archive_path, dst_path
+      
       if(os_type === "darwin"){
+        try {
+          await exec.exec('unzip', ['arduino.zip']);
+        } catch (error) {console.log(`UNZIP ERROR: ${error.message}`);}
         ide_path = ide_path + "/Contents/Java"
+      } else {
+        arduino_ide = await tc.extractZip('arduino.zip', ide_path); // archive_path, dst_path
       }
     }
     console.log(`Archive: ${archive}, Extracted: ${arduino_ide}`);
