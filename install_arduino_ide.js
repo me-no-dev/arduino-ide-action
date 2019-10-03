@@ -35,7 +35,11 @@ async function run() {
       await io.mv(archive, 'arduino.zip');
       
       if(os_type === "darwin"){
-        await exec.exec('unzip arduino.zip > /dev/null');
+        let myError = '';
+        const options = {};
+        options.cwd = process.env['HOME'];
+        options.listeners = {stdout: (data: Buffer) => {}, stderr: (data: Buffer) => { myError += data.toString(); }};
+        await exec.exec('unzip', ['arduino.zip'], options);
         await io.mv('Arduino.app', arduino_ide);
         arduino_ide += "/Contents/Java"
       } else {
