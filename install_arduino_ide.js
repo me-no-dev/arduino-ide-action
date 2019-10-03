@@ -22,27 +22,27 @@ async function run() {
     }
     const ide_url = `https://www.arduino.cc/download.php?f=/arduino-nightly-${arduino_archive}`;
     const archive = await tc.downloadTool(ide_url);
-    const ainfo = await exec.exec('ls', ['-l', archive]);
-    console.log(`LS: ${ainfo}`);
-    var arduino_ide = "";
+
+    var arduino_ide = ide_path;
+    if (!arduino_ide.startsWith("/")){
+      arduino_ide = process.env['HOME'] + "/" + arduino_ide;
+    }
     if (os_type === "linux"){
       await io.mv(archive, 'arduino.tar.xz');
       await exec.exec('tar', ['xf', 'arduino.tar.xz']);
-      await io.mv('arduino-nightly', ide_path);
-      arduino_ide = ide_path;
+      await io.mv('arduino-nightly', arduino_ide);
     } else {
       await io.mv(archive, 'arduino.zip');
       
       if(os_type === "darwin"){
-        try {
-          await exec.exec('unzip', ['arduino.zip']);
-        } catch (error) {console.log(`UNZIP ERROR: ${error.message}`);}
-        ide_path = ide_path + "/Contents/Java"
+        await exec.exec('unzip', ['arduino.zip']);
+        await io.mv('Arduino.app', arduino_ide);
+        arduino_ide += "/Contents/Java"
       } else {
-        arduino_ide = await tc.extractZip('arduino.zip', ide_path); // archive_path, dst_path
+        arduino_ide = await tc.extractZip('arduino.zip', arduino_ide); // archive_path, dst_path
       }
     }
-    console.log(`Archive: ${archive}, Extracted: ${arduino_ide}`);
+    console.log(`Extracted IDE: ${arduino_ide}`);
     const aiinfo = await exec.exec('ls', ['-l', arduino_ide]);
     console.log(`LS IDE: ${aiinfo}`);
 
