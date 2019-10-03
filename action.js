@@ -4,7 +4,6 @@ const exec = require('@actions/exec');
 const io = require('@actions/io');
 const tc = require('@actions/tool-cache');
 
-
 // platform: [darwin, linux, win32]
 async function run() {
   try { 
@@ -50,7 +49,7 @@ async function run() {
         await io.mv('Arduino.app', arduino_ide);
         arduino_ide += "/Contents/Java"
       } else {
-        const arduino_unzip = await tc.extractZip('arduino.zip', 'arduino_unzip'); // archive_path, dst_path
+        const arduino_unzip = await tc.extractZip('arduino.zip', 'arduino_unzip');
         await io.cp(arduino_unzip + path_delimiter + "arduino-nightly", arduino_ide, { recursive: true, force: false });
         await io.rmRF(arduino_unzip);
       }

@@ -15,4 +15,4 @@ inputs:
     default: 'Arduino'
 runs:
   using: 'node12'
-  main: 'install_arduino_ide.js'
+  main: 'action.js'
