@@ -26,16 +26,23 @@ async function run() {
     console.log(`LS: ${ainfo}`);
     var arduino_ide = "";
     if (os_type === "linux"){
-      await exec.exec('tar', ['xf', archive]);
+      await io.mv(archive, 'arduino.tar.xz');
+      await exec.exec('tar', ['xf', 'arduino.tar.xz']);
       await io.mv('arduino-nightly', ide_path);
       arduino_ide = ide_path;
     } else {
-      arduino_ide = await tc.extractZip(archive, ide_path); // archive_path, dst_path
+      await io.mv(archive, 'arduino.zip');
+      arduino_ide = await tc.extractZip('arduino.zip', ide_path); // archive_path, dst_path
       if(os_type === "darwin"){
         ide_path = ide_path + "/Contents/Java"
       }
     }
     console.log(`Archive: ${archive}, Extracted: ${arduino_ide}`);
+    const aiinfo = await exec.exec('ls', ['-l', arduino_ide]);
+    console.log(`LS IDE: ${aiinfo}`);
+
+
+
     // core.exportVariable('ARDUINO_IDE_PATH', ide_path);
     // core.exportVariable('ARDUINO_USR_PATH', usr_path);
 
