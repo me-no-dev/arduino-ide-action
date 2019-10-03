@@ -47,7 +47,7 @@ async function run() {
         arduino_ide += "/Contents/Java"
       } else {
         const arduino_unzip = await tc.extractZip('arduino.zip', 'arduino_unzip'); // archive_path, dst_path
-        await io.cp(arduino_unzip + "/arduino-nightly", { recursive: true, force: false });
+        await io.cp(arduino_unzip + "/arduino-nightly", arduino_ide, { recursive: true, force: false });
       }
     }
     console.log(`Extracted IDE: ${arduino_ide}`);
