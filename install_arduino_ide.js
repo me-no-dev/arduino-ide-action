@@ -25,8 +25,13 @@ async function run() {
     var arduino_ide = "";
     if (os_type === "linux"){
       arduino_ide = await tc.extractTar(archive, ide_path); // archive_path, dst_path
+      await exec.exec('tar', ['xf', archive]);
+      await io.mv('arduino-nightly', ide_path);
     } else {
       arduino_ide = await tc.extractZip(archive, ide_path); // archive_path, dst_path
+      if(os_type === "darwin"){
+        ide_path = ide_path + "/Contents/Java"
+      }
     }
     console.log(`Archive: ${archive}, Extracted: ${arduino_ide}`);
     // core.exportVariable('ARDUINO_IDE_PATH', ide_path);
