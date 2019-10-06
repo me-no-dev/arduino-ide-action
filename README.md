@@ -13,8 +13,8 @@ jobs:
     - name: Install Arduino IDE
       uses: me-no-dev/arduino-ide-action@master
         with:
-          ide_path: $HOME/arduino-ide
-          usr_path: $HOME/Arduino
+          ide_path: arduino-ide # optional: relative to $HOME or absolute. default: $HOME/arduino-ide
+          usr_path: Arduino # optional: relative to $HOME or absolute. default: $HOME/Arduino
 
 ...
     - run: |
